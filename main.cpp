@@ -46,5 +46,13 @@ int main() {
         std::cout << "Crie um arquivo 'doc1.txt' na mesma pasta pra testar leitura de arquivo.\n";
     }
 
+
+    indexer meuIndexer;
+    
+    // Certifica-te de ter esta pasta criada com arquivos .txt dentro
+    meuIndexer.lerArquivos("./arquivos_teste");
+    
+    meuIndexer.imprimirTudo();
+
     return 0;
 }

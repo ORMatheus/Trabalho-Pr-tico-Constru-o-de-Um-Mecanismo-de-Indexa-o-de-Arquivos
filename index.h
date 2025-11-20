@@ -14,7 +14,7 @@
 namespace fs = std::filesystem;
 using namespace std;
 
-class helper{
+class Helper{
     
     public:
     void lerArquivo();
@@ -36,7 +36,7 @@ class helper{
     
 };
 
-class index{
+class Index{
     int convertToId();//manter o indice principal (Converter o nome"texto" para o ID "int")
     void includeID(); //inclui o id na tabela
     string convertToName(); //converter o id para o nome do arquivo 
@@ -103,7 +103,7 @@ private:
 
 
 //Matheus
-class indexer{
+class Indexer{
     private:
     //A tabela hashprincipal que esta guardando o arquivo ID e trazendo para palavras
     unordered_map<int, vector<string>> tabelaHash;
@@ -114,16 +114,73 @@ class indexer{
     //crio uma instacia da textProcessor na minha indexer
     TextProcessor processor;
     public:
-    //metodo para obter o Id
-    int getId(string nomedoArquivo){
-        if(nomeParaId.find(nomedoArquivo)== nomeParaId.end() ){ //significa que o arquivo ainda nao tem um id e precisa ser criado
-            nomeParaId[nomedoArquivo]=contadorId++;
+    //construtor para receber o caminho do stopwords
+    indexer():processor("stopwords.txt"){}
+
+    //metodo getID
+    int getId(string nomedoArquivo) {
+        if (nomeParaId.find(nomedoArquivo) == nomeParaId.end()) {
+            nomeParaId[nomedoArquivo] = contadorId++;
         }
         return nomeParaId[nomedoArquivo];
     }
 
     //salvar na hash 
+    //preciso reber o id do arquivo e o vetor de palavras que ja foram tratadas
+    void saveOnHash(int id, const vector<string> & palavras){
+        tabelaHash[id].insert(tabelaHash[id].end(),palavras.begin(),palavras.end());
+    }
 
+    //ler arquivos
+    void lerArquivos(string caminhoPasta) {
+        if (!fs::exists(caminhoPasta)) {
+            cout << "Erro: Pasta nao encontrada!" << endl;
+            return;
+        }
+
+        for (const auto& entry : fs::directory_iterator(caminhoPasta)) {
+            // Só processa se for ficheiro regular (.txt, etc)
+            if(entry.is_regular_file()) {
+                string caminhoCompleto = entry.path().string();
+                string nomeArquivo = entry.path().filename().string();
+                
+                // 1. Obter ID
+                int idAtual = getId(nomeArquivo);
+                
+                ifstream arquivo(caminhoCompleto);
+                if (arquivo.is_open()) {
+                    string linha;
+                    // Vetor para acumular todas as palavras deste arquivo
+                    vector<string> conteudoArquivoTratado;
+
+                    while (getline(arquivo, linha)) {
+                        // 2. Usar a classe do Fernando para processar a linha
+                        vector<string> palavrasDaLinha = processador.process(linha);
+                        
+                        // Juntar ao acumulador
+                        conteudoArquivoTratado.insert(conteudoArquivoTratado.end(), 
+                                                      palavrasDaLinha.begin(), 
+                                                      palavrasDaLinha.end());
+                    }
+                    
+                    // 3. Salvar na Hash final
+                    saveOnHash(idAtual, conteudoArquivoTratado);
+                    
+                    cout << "Arquivo processado: " << nomeArquivo << " (ID: " << idAtual << ")" << endl;
+                    arquivo.close();
+                }
+            }
+        }
+    }
+
+    void imprimirTudo() {
+        cout << "\n--- STATUS DA HASH ---" << endl;
+        for(auto const& [id, palavras] : tabelaHash) {
+            cout << "ID " << id << ": ";
+            for(const string& p : palavras) cout << p << " ";
+            cout << "\n";
+        }
+    }
     
 };
 
@@ -136,12 +193,12 @@ class Serializer{
     void loadIndice();
 };
 
-class queryProcessor{
+class QueryProcessor{
     string Buscar(string palavra); //retorna os nomes dos arquivos que possuem a palavra buscada
     string multiplaBusca(string palavra1,string palavra2); //retorna os nomes dos arquivos que possuem a palavra buscada
     
 };
 
-class comandLineInterface{
+class ComandLineInterface{
     void funcoesDaMain(); // funções da main Dependendo dos argumentos, ele deve criar e utilizar os objetos Indexer, Serializer e QueryProcessor para realizar as operações de indexação ou busca
 };
