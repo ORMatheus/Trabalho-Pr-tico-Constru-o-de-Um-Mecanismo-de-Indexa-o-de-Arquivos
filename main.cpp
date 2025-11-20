@@ -47,10 +47,10 @@ int main() {
     }
 
 
-    indexer meuIndexer;
+    Indexer meuIndexer;
     
     // Certifica-te de ter esta pasta criada com arquivos .txt dentro
-    meuIndexer.lerArquivos("./arquivos_teste");
+    meuIndexer.lerArquivos("/.storwords.txt");
     
     meuIndexer.imprimirTudo();
 

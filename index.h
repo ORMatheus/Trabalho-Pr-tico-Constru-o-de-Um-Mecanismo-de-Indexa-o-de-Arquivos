@@ -115,7 +115,7 @@ class Indexer{
     TextProcessor processor;
     public:
     //construtor para receber o caminho do stopwords
-    indexer():processor("stopwords.txt"){}
+    Indexer():processor("stopwords.txt"){}
 
     //metodo getID
     int getId(string nomedoArquivo) {
@@ -155,19 +155,18 @@ class Indexer{
 
                     while (getline(arquivo, linha)) {
                         // 2. Usar a classe do Fernando para processar a linha
-                        vector<string> palavrasDaLinha = processador.process(linha);
+                        vector<string> palavrasDaLinha = processor.process(linha);
                         
                         // Juntar ao acumulador
                         conteudoArquivoTratado.insert(conteudoArquivoTratado.end(), 
-                                                      palavrasDaLinha.begin(), 
-                                                      palavrasDaLinha.end());
+                        palavrasDaLinha.begin(), 
+                        palavrasDaLinha.end());
                     }
                     
                     // 3. Salvar na Hash final
                     saveOnHash(idAtual, conteudoArquivoTratado);
-                    
                     cout << "Arquivo processado: " << nomeArquivo << " (ID: " << idAtual << ")" << endl;
-                    arquivo.close();
+                    arquivo.close(); 
                 }
             }
         }
