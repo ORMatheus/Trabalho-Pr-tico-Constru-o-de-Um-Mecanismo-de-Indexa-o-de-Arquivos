@@ -1,9 +1,10 @@
 #include <iostream>
 #include <string>
 #include <filesystem>
+#include <unordered_map>
 using namespace std;
 
-class Index{
+class helper{
     
     public:
     void lerArquivo();
@@ -12,10 +13,11 @@ class Index{
         string ConvertMinusculo();
         string stopWords();
     }
-    void saveIndece();
-    void loadIndice();
+
     string Buscar();
     string multiplaBusca();
+    
+    int txtToId(); 
 
     private:
     string removerPonto();
@@ -24,10 +26,39 @@ class Index{
     
 };
 
-class TableHash{
+class index{
+    int convertToId();//manter o indice principal (Converter o nome"texto" para o ID "int")
+    void includeID(); //inclui o id na tabela
+    string convertToName(); //converter o id para o nome do arquivo 
+    
+}; 
+
+class textProcessor{
+    string processarTexto(){
+        string removerPonto();
+        string ConvertMinusculo();
+        string stopWords();
+    }
+};
+
+class indexer{
+
+    void lerArquivos(); // catalogar arquivo por arquivo 
+    void processarTexto(); //realizar a normalização do texto dentro do arquivo.
+    int getId(); // pegar o id do index
+    void saveOnHash(); //salvar o arquivo ja tratado e salva-lo na hash.
 
 };
 
+class serializer{
+    void saveIndece();
+    void loadIndice();
+};
 
+class queryProcessor{
+    string Buscar(string palavra); //retorna os nomes dos arquivos que possuem a palavra buscada
+    string multiplaBusca(string palavra1,string palavra2); //retorna os nomes dos arquivos que possuem a palavra buscada
 
+};
 
+class comandLineInterface{};
