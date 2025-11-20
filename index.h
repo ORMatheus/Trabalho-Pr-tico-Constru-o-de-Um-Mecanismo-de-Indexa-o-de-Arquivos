@@ -51,11 +51,8 @@ class textProcessor{
 
 //Matheus
 class indexer{
-
-    void lerArquivos(); // catalogar arquivo por arquivo 
-    void processarTexto(); //realizar a normalização do texto dentro do arquivo.
-    int getId(); // pegar o id do index
-    void saveOnHash(); //salvar o arquivo ja tratado e salva-lo na hash.
+    private:
+    unordered_map<int, vector<string>> tabelaHash;
 
 };
 
