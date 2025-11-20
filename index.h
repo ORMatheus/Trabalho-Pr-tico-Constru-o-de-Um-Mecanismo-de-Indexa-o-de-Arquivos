@@ -54,6 +54,9 @@ class indexer{
     private:
     unordered_map<int, vector<string>> tabelaHash;
 
+    unordered_map<string,int> nomeParaId;
+    int contadorId=1;
+
 };
 
 class Serializer{
