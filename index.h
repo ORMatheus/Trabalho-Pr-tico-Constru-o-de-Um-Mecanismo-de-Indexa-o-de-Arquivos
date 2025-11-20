@@ -33,6 +33,7 @@ class index{
     
 }; 
 
+//Fernando
 class textProcessor{
     string processarTexto(){
         string removerPonto();
@@ -41,6 +42,8 @@ class textProcessor{
     }
 };
 
+
+//Matheus
 class indexer{
 
     void lerArquivos(); // catalogar arquivo por arquivo 
@@ -58,7 +61,9 @@ class serializer{
 class queryProcessor{
     string Buscar(string palavra); //retorna os nomes dos arquivos que possuem a palavra buscada
     string multiplaBusca(string palavra1,string palavra2); //retorna os nomes dos arquivos que possuem a palavra buscada
-
+    
 };
 
-class comandLineInterface{};
+class comandLineInterface{
+    void funcoesDaMain(); // funções da main Dependendo dos argumentos, ele deve criar e utilizar os objetos Indexer, Serializer e QueryProcessor para realizar as operações de indexação ou busca
+};
