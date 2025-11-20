@@ -201,3 +201,4 @@ class QueryProcessor{
 class ComandLineInterface{
     void funcoesDaMain(); // funções da main Dependendo dos argumentos, ele deve criar e utilizar os objetos Indexer, Serializer e QueryProcessor para realizar as operações de indexação ou busca
 };
+

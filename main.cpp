@@ -3,7 +3,7 @@
 #include <fstream>
 #include <filesystem>
 #include <string>
-
+namespace fs =filesystem;
 int main() {
     // 1. Cria o TextProcessor (vai tentar carregar stopwords.txt)
     TextProcessor tp("stopwords.txt");
@@ -50,9 +50,9 @@ int main() {
     Indexer meuIndexer;
     
     // Certifica-te de ter esta pasta criada com arquivos .txt dentro
-    meuIndexer.lerArquivos("/.storwords.txt");
+    meuIndexer.lerArquivos("/.stopwords.txt");
     
     meuIndexer.imprimirTudo();
-
+    system("Pauase");
     return 0;
 }
