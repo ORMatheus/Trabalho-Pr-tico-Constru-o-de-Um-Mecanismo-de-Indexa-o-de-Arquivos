@@ -83,3 +83,47 @@ void Indexer::lerPasta(const string& caminhoPasta) {
         std::cout << "Arquivo indexado: " << nomeArquivo << "\n";
     }
 }
+
+//  INVERTED INDEX
+
+// Constrói o índice invertido: termo → {id → freq}
+void InvertedIndex::construir(const Indexer& idx) {
+    for (const auto& par : idx.palavrasPorId) {
+        int id = par.first;
+
+        // "par.second" é o vector de palavras do arquivo
+        for (const string& termo : par.second) {
+            indice[termo][id]++;  // soma 1 à frequência
+        }
+    }
+
+    std::cout << "Índice invertido construído.\n";
+}
+
+// Realiza busca simples com soma de frequências
+void InvertedIndex::buscar(const vector<string>& termos,
+                           const Indexer& idx) {
+    unordered_map<int, int> score;
+
+    // Para cada termo digitado pelo usuário
+    for (const string& t : termos) {
+        if (indice.count(t) == 0) continue;
+
+        // Para cada arquivo onde o termo aparece
+        for (const auto& par : indice[t]) {
+            score[par.first] += par.second;
+        }
+    }
+
+    // Exibe os resultados encontrados
+    std::cout << "\nResultados da busca:\n";
+    for (const auto& par : score) {
+        // Par é: (id, score)
+        for (const auto& idNome : idx.nomeParaId) {
+            if (idNome.second == par.first) {
+                std::cout << "- " << idNome.first
+                          << " (score: " << par.second << ")\n";
+            }
+        }
+    }
+}
