@@ -69,8 +69,19 @@ class Indexer{
 
     void lerPasta(const string& caminhoPasta);
 
+};
 
+//fazer a indexação invertida como foi descrito no arquivo
+//  Índice invertido = palavra → lista de (idArquivo, frequência)
+//  Permite encontrar arquivos rapidamente a partir de uma palavra.
 
+class InvertedText{
+    public:
+    unordered_map<string, unordered_map<int,int>> indice; //uma tabela hash de chave e valor que possui uma string e outra tabela hash de int,int
+    
+    void construir (const Indexer& indexador); //constroi o indice invertido usando os dados do indexador
+
+    void buscar(const vector<string> &termos, const Indexer& indexador);
 };
 
 
